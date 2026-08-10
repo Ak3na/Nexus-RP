@@ -9,11 +9,61 @@ section{padding:25px 0 80px}.section-title{text-align:center;margin-bottom:28px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{padding:25px;border-radius:18px;border:1px solid var(--border);background:var(--panel)}.icon{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;color:var(--green);background:rgba(83,224,109,.09);border:1px solid rgba(83,224,109,.17);margin-bottom:15px}.card h3{font-size:18px;margin-bottom:8px}.card p{color:var(--muted);font-size:14px;line-height:1.65}
 footer{border-top:1px solid rgba(255,255,255,.06);padding:28px 0 40px;text-align:center;color:#697580;font-size:13px}footer a{color:#a9b4bc;text-decoration:none}footer a:hover{color:var(--green)}
 @media(max-width:760px){.container{width:min(100% - 20px,1040px)}.nav a:last-child{display:none}.hero{padding-top:25px}.hero-card{padding:48px 18px 45px;border-radius:22px}.gallery,.cards{grid-template-columns:1fr}.buttons .btn{width:100%}.section-title h2{font-size:27px}}
+
+    .menu-toggle {
+      position: fixed; top: 22px; right: 24px; z-index: 1001;
+      width: 48px; height: 48px; border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px; background: rgba(10,15,19,.82); backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: 5px; cursor: pointer; transition: .25s;
+    }
+    .menu-toggle:hover { border-color: rgba(83,224,109,.45); transform: translateY(-2px); }
+    .menu-toggle span { width: 21px; height: 2px; background: #f4f7f9; border-radius: 2px; transition: .25s; }
+    .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .side-menu {
+      position: fixed; top: 0; right: 0; width: min(330px, 88vw); height: 100vh;
+      z-index: 1000; padding: 100px 28px 30px;
+      background: rgba(7,10,13,.96); border-left: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(18px); transform: translateX(100%); transition: transform .3s ease;
+      box-shadow: -20px 0 70px rgba(0,0,0,.35);
+    }
+    .side-menu.open { transform: translateX(0); }
+    .side-menu h3 { color: #8e9ba5; font-size: 12px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 14px; }
+    .menu-link {
+      display: flex; align-items: center; gap: 12px; width: 100%; padding: 15px 14px;
+      margin-bottom: 7px; border-radius: 12px; color: #f4f7f9; text-decoration: none;
+      font-weight: 750; background: rgba(255,255,255,.035); transition: .2s;
+    }
+    .menu-link:hover { background: rgba(83,224,109,.1); color: #b8ffc3; transform: translateX(-3px); }
+    .menu-link.donate { border: 1px solid rgba(83,224,109,.2); color: #b8ffc3; }
+    .menu-overlay {
+      position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.45);
+      opacity: 0; pointer-events: none; transition: .3s;
+    }
+    .menu-overlay.open { opacity: 1; pointer-events: auto; }
 </style></head>
 <body>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <aside class="side-menu" id="sideMenu" aria-label="Меню сайта">
+    <h3>Навигация</h3>
+    <a class="menu-link" href="#top">⌂ &nbsp;Главная</a>
+    <a class="menu-link" href="#about">◆ &nbsp;О проекте</a>
+    <a class="menu-link" href="#gallery">▣ &nbsp;Галерея</a>
+    <a class="menu-link" href="#social">◉ &nbsp;Социальные сети</a>
+    <h3 style="margin-top:26px;">Поддержка проекта</h3>
+    <a class="menu-link donate" href="https://www.donationalerts.com/r/akena666" target="_blank" rel="noopener noreferrer">♥ &nbsp;Донат</a>
+  </aside>
+
 <nav><div class="container nav"><a class="brand" href="#"><span class="mark">N</span><span>NEXUS RP</span></a><a href="#gallery">Галерея ↓</a></div></nav>
 <main>
-<section class="hero"><div class="container"><div class="hero-card">
+<section class="hero" id="top"><div class="container"><div class="hero-card">
 <div class="status"><span class="dot"></span>Сервер в разработке</div>
 <h1>NEXUS <span>RP</span></h1>
 <p class="subtitle">Nexus RP — это <b>модовый Minecraft RP-сервер</b>, который создаётся с нуля. Нас ждёт живой мир, новые возможности и собственная история. Следите за разработкой, новостями и анонсами в наших социальных сетях.</p>
@@ -30,4 +80,21 @@ footer{border-top:1px solid rgba(255,255,255,.06);padding:28px 0 40px;text-align
 </div></div></section>
 </main>
 <footer><div class="container">© 2026 Nexus RP · <a href="https://t.me/KNEXUS_RP" target="_blank">Telegram</a> · <a href="https://discord.gg/asSQRcKRqE" target="_blank">Discord</a></div></footer>
+
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const links = menu.querySelectorAll('a');
+    function setMenu(open) {
+      toggle.classList.toggle('active', open);
+      menu.classList.toggle('open', open);
+      overlay.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+    }
+    toggle.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+    overlay.addEventListener('click', () => setMenu(false));
+    links.forEach(link => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  </script>
 </body></html>
