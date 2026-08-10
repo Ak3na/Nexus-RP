@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080b0f" />
+  <meta name="description" content="Nexus RP — Minecraft RP сервер. Сервер находится в разработке. Следите за новостями в Telegram и Discord." />
+  <title>Nexus RP — Minecraft RP</title>
+  <style>
+    :root {
+      --bg: #070a0d;
+      --panel: rgba(13, 18, 23, .78);
+      --panel-border: rgba(255,255,255,.09);
+      --text: #f4f7f9;
+      --muted: #9aa7b2;
+      --green: #53e06d;
+      --green-dark: #1b8f3a;
+      --cyan: #56d9ff;
+      --shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(83,224,109,.13), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(86,217,255,.09), transparent 28%),
+        linear-gradient(135deg, #050708 0%, #0a0f13 50%, #070a0d 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    nav {
+      padding: 24px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(83,224,109,.45);
+      background: linear-gradient(145deg, rgba(83,224,109,.22), rgba(83,224,109,.04));
+      box-shadow: 0 0 30px rgba(83,224,109,.12);
+      clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0 50%);
+      color: var(--green);
+      font-size: 18px;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color .2s ease;
+    }
+    .nav-link:hover { color: var(--text); }
+
+    .hero {
+      min-height: calc(100vh - 90px);
+      display: grid;
+      place-items: center;
+      padding: 50px 0 100px;
+      position: relative;
+    }
+
+    .hero-card {
+      width: 100%;
+      max-width: 920px;
+      text-align: center;
+      padding: clamp(44px, 8vw, 88px) clamp(24px, 7vw, 80px);
+      border: 1px solid var(--panel-border);
+      background: linear-gradient(145deg, rgba(17,24,30,.82), rgba(7,11,14,.72));
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: rgba(83,224,109,.12);
+      filter: blur(80px);
+      top: -190px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(83,224,109,.28);
+      background: rgba(83,224,109,.08);
+      color: #b8ffc3;
+      font-size: 13px;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px var(--green);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.45); opacity: .65; }
+    }
+
+    h1 {
+      font-size: clamp(54px, 11vw, 112px);
+      line-height: .9;
+      letter-spacing: -.065em;
+      margin: 28px 0 20px;
+      font-weight: 950;
+      position: relative;
+      text-shadow: 0 10px 40px rgba(0,0,0,.35);
+    }
+
+    h1 span {
+      color: var(--green);
+      text-shadow: 0 0 38px rgba(83,224,109,.2);
+    }
+
+    .subtitle {
+      max-width: 670px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.7;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      min-width: 190px;
+      padding: 15px 22px;
+      border-radius: 13px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      color: #071008;
+      background: var(--green);
+      box-shadow: 0 10px 35px rgba(83,224,109,.22);
+    }
+
+    .btn-primary:hover { box-shadow: 0 15px 45px rgba(83,224,109,.34); }
+
+    .btn-secondary {
+      color: var(--text);
+      border: 1px solid var(--panel-border);
+      background: rgba(255,255,255,.04);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+    }
+
+    .info {
+      padding: 0 0 90px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      padding: 28px;
+      border-radius: 20px;
+      border: 1px solid var(--panel-border);
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: rgba(83,224,109,.1);
+      border: 1px solid rgba(83,224,109,.18);
+      color: var(--green);
+      font-size: 20px;
+    }
+
+    .card h2 {
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 28px 0 40px;
+      color: #697580;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #9baab5;
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--green); }
+
+    @media (max-width: 760px) {
+      .container { width: min(100% - 24px, 1120px); }
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 25px; }
+      .hero-card { border-radius: 22px; }
+      .nav-link { display: none; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark">N</span>
+        <span>NEXUS RP</span>
+      </a>
+      <a class="nav-link" href="#social">Социальные сети ↓</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <div class="status">
+            <span class="status-dot"></span>
+            Сервер в разработке
+          </div>
+
+          <h1>NEXUS <span>RP</span></h1>
+
+          <p class="subtitle">
+            Новый Minecraft RP-проект, который создаётся с нуля.
+            Следите за разработкой, новостями и анонсами в наших социальных сетях.
+          </p>
+
+          <div class="buttons" id="social">
+            <a class="btn btn-primary" href="https://t.me/KNEXUS_RP" target="_blank" rel="noopener noreferrer">
+              ✈ Telegram
+            </a>
+            <a class="btn btn-secondary" href="https://discord.gg/asSQRcKRqE" target="_blank" rel="noopener noreferrer">
+              ◈ Discord
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="info">
+      <div class="container grid">
+        <article class="card">
+          <div class="icon">⚒</div>
+          <h2>В разработке</h2>
+          <p>Мы работаем над сервером и постепенно приближаем его к открытию. Следите за прогрессом проекта.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">◉</div>
+          <h2>Новости</h2>
+          <p>Все важные обновления, анонсы и новости публикуются в Telegram и Discord.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">◆</div>
+          <h2>Nexus RP</h2>
+          <p>Место, где Minecraft встречается с полноценной ролевой игрой. Скоро здесь начнётся новая история.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Nexus RP · Следите за новостями:
+      <a href="https://t.me/KNEXUS_RP" target="_blank" rel="noopener noreferrer">Telegram</a>
+      ·
+      <a href="https://discord.gg/asSQRcKRqE" target="_blank" rel="noopener noreferrer">Discord</a>
+    </div>
+  </footer>
+</body>
+</html>
